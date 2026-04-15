@@ -1,7 +1,18 @@
-import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
+import { 
+    LayoutGrid, 
+    ShoppingCart, 
+    Banknote, 
+    Package, 
+    Users, 
+    ClipboardList, 
+    FileText, 
+    Activity, 
+    History,
+    UserCog,
+    Truck
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -16,28 +27,32 @@ import {
 import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-];
-
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: FolderGit2,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
-];
-
 export function AppSidebar() {
+    const { auth } = usePage().props as any;
+    const userRole = auth.user.role;
+
+    const menuItems = {
+        pemilik: [
+            { title: 'Dashboard', href: '/pemilik/dashboard', icon: LayoutGrid },
+            { title: 'Laporan', href: '#', icon: FileText },
+            { title: 'Monitoring Stok', href: '#', icon: Activity },
+            { title: 'Riwayat Transaksi', href: '#', icon: History },
+            { title: 'Manajemen User', href: '#', icon: UserCog },
+            { title: 'Log Stok', href: '#', icon: ClipboardList },
+        ],
+        admin_gudang: [
+            { title: 'Dashboard', href: '/gudang/dashboard', icon: LayoutGrid },
+            { title: 'Pembelian', href: '#', icon: ShoppingCart },
+            { title: 'Penjualan', href: '#', icon: Banknote },
+            { title: 'Stok', href: '#', icon: Package },
+            { title: 'Supplier', href: '#', icon: Truck },
+            { title: 'Pelanggan', href: '#', icon: Users },
+            { title: 'Log Stok', href: '#', icon: ClipboardList },
+        ],
+    };
+
+    const mainNavItems: NavItem[] = menuItems[userRole as keyof typeof menuItems] || [];
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -57,7 +72,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>
