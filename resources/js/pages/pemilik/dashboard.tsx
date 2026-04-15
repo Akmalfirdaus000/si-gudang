@@ -12,52 +12,27 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const financialStats = [
-    {
-        title: 'Total Penjualan',
-        value: 'Rp 128.450.000',
-        change: '+18%',
-        trend: 'up',
-        icon: TrendingUp,
-        description: 'Bulan ini'
-    },
-    {
-        title: 'Estimasi Laba Kotor',
-        value: 'Rp 32.100.000',
-        change: '+12%',
-        trend: 'up',
-        icon: ArrowUpRight,
-        description: 'Bulan ini'
-    },
-    {
-        title: 'Total Pengeluaran',
-        value: 'Rp 96.350.000',
-        change: '-5%',
-        trend: 'down',
-        icon: Wallet,
-        description: 'Pembelian Stok'
-    },
-    {
-        title: 'Nilai Aset Stok',
-        value: 'Rp 215.000.000',
-        change: 'Tetap',
-        trend: 'neutral',
-        icon: BarChart3,
-        description: 'Estimasi nilai stok'
-    }
-];
+interface OwnerDashboardProps {
+    financialStats: {
+        title: string;
+        value: string;
+        change: string;
+        trend: 'up' | 'down' | 'neutral';
+        icon?: any;
+        description: string;
+    }[];
+    salesData: {
+        day: string;
+        value: number;
+    }[];
+}
 
-const salesData = [
-    { day: 'Sen', value: 45 },
-    { day: 'Sel', value: 52 },
-    { day: 'Rab', value: 38 },
-    { day: 'Kam', value: 65 },
-    { day: 'Jum', value: 48 },
-    { day: 'Sab', value: 72 },
-    { day: 'Min', value: 40 },
-];
+export default function OwnerDashboard({ financialStats, salesData }: OwnerDashboardProps) {
+    const statsWithIcons = financialStats.map((stat, index) => {
+        const icons = [TrendingUp, ArrowUpRight, Wallet, BarChart3];
+        return { ...stat, icon: icons[index] || BarChart3 };
+    });
 
-export default function OwnerDashboard() {
     return (
         <>
             <Head title="Owner Dashboard" />
@@ -79,7 +54,7 @@ export default function OwnerDashboard() {
 
                 {/* Financial Summary Cards */}
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    {financialStats.map((stat) => (
+                    {statsWithIcons.map((stat) => (
                         <Card key={stat.title}>
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>

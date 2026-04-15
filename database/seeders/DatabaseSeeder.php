@@ -63,5 +63,41 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ],
         ]);
+
+        // Seeder Supplier
+        \DB::table('supplier')->insert([
+            [
+                'nama_supplier' => 'Bpk. Sugeng (Supplier Kerinci)',
+                'alamat' => 'Kerinci, Jambi',
+                'no_hp' => '081234567890',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_supplier' => 'Ibu Maria',
+                'alamat' => 'Sungai Penuh',
+                'no_hp' => '089876543210',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
+        // Seeder Pelanggan
+        \DB::table('pelanggan')->insert([
+            [
+                'nama_pelanggan' => 'Toko Berkah Padang',
+                'alamat' => 'Padang, Sumatera Barat',
+                'no_hp' => '081122334455',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama_pelanggan' => 'CV Kayu Harum',
+                'alamat' => 'Jakarta Timur',
+                'no_hp' => '085566778899',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
 }

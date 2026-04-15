@@ -2,7 +2,6 @@ import { Link, usePage } from '@inertiajs/react';
 import { 
     LayoutGrid, 
     ShoppingCart, 
-    Banknote, 
     Package, 
     Users, 
     ClipboardList, 
@@ -10,9 +9,21 @@ import {
     Activity, 
     History,
     UserCog,
-    Truck
+    Truck,
+    TrendingUp,
+    Tag,
+    Database,
+    ChevronRight,
+    Banknote
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
+import pembelianRoute from '@/routes/gudang/pembelian';
+import penjualanRoute from '@/routes/gudang/penjualan';
+import stokRoute from '@/routes/gudang/stok';
+import barangRoute from '@/routes/gudang/barang';
+import supplierRoute from '@/routes/gudang/supplier';
+import pelangganRoute from '@/routes/gudang/pelanggan';
+import logStokRoute from '@/routes/gudang/log-stok';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -25,33 +36,54 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import type { NavItem } from '@/types';
 
 export function AppSidebar() {
     const { auth } = usePage().props as any;
     const userRole = auth.user.role;
 
-    const menuItems = {
-        pemilik: [
-            { title: 'Dashboard', href: '/pemilik/dashboard', icon: LayoutGrid },
-            { title: 'Laporan', href: '#', icon: FileText },
-            { title: 'Monitoring Stok', href: '#', icon: Activity },
-            { title: 'Riwayat Transaksi', href: '#', icon: History },
-            { title: 'Manajemen User', href: '#', icon: UserCog },
-            { title: 'Log Stok', href: '#', icon: ClipboardList },
-        ],
+    const navItems = {
         admin_gudang: [
             { title: 'Dashboard', href: '/gudang/dashboard', icon: LayoutGrid },
-            { title: 'Pembelian', href: '#', icon: ShoppingCart },
-            { title: 'Penjualan', href: '#', icon: Banknote },
-            { title: 'Stok', href: '#', icon: Package },
-            { title: 'Supplier', href: '#', icon: Truck },
-            { title: 'Pelanggan', href: '#', icon: Users },
-            { title: 'Log Stok', href: '#', icon: ClipboardList },
+            { title: 'Pembelian', href: pembelianRoute.index().url, icon: ShoppingCart },
+            { title: 'Penjualan', href: penjualanRoute.index().url, icon: TrendingUp },
+            { title: 'Stok Monitoring', href: stokRoute.index().url, icon: Package },
+            { 
+                title: 'Data Master', 
+                href: '#', 
+                icon: Database,
+                items: [
+                    { title: 'Barang & Grade', href: barangRoute.index().url, icon: Tag },
+                    { title: 'Supplier', href: supplierRoute.index().url, icon: Truck },
+                    { title: 'Pelanggan', href: pelangganRoute.index().url, icon: Users },
+                ]
+            },
+            { title: 'Log Pergerakan Stok', href: logStokRoute.index().url, icon: ClipboardList },
         ],
+        pemilik: [
+            { title: 'Dashboard', href: '/pemilik/dashboard', icon: LayoutGrid },
+            { 
+                title: 'Laporan', 
+                href: '#', 
+                icon: FileText,
+                items: [
+                    { title: 'Laporan Finansial', href: '#', icon: Banknote },
+                    { title: 'Monitoring Stok', href: '#', icon: Activity },
+                    { title: 'Riwayat Transaksi', href: '#', icon: History },
+                ]
+            },
+            { 
+                title: 'Manajemen', 
+                href: '#', 
+                icon: UserCog,
+                items: [
+                    { title: 'Manajemen User', href: '#', icon: Users },
+                    { title: 'Audit Pergerakan Stok', href: logStokRoute.index().url, icon: ClipboardList },
+                ]
+            },
+        ]
     };
 
-    const mainNavItems: NavItem[] = menuItems[userRole as keyof typeof menuItems] || [];
+    const activeItems = navItems[userRole as keyof typeof navItems] || [];
 
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -67,8 +99,8 @@ export function AppSidebar() {
                 </SidebarMenu>
             </SidebarHeader>
 
-            <SidebarContent>
-                <NavMain items={mainNavItems} />
+            <SidebarContent className="py-2">
+                <NavMain items={activeItems} />
             </SidebarContent>
 
             <SidebarFooter>
