@@ -76,9 +76,20 @@ class DashboardController extends Controller
             $data['value'] = ($data['raw_value'] / $maxSales) * 100;
         }
 
+        // Data Distribusi Stok per Grade
+        $stockComposition = Stok::with('kualitasBarang')
+            ->get()
+            ->map(function ($stok) {
+                return [
+                    'name' => $stok->kualitasBarang->nama_kualitas,
+                    'amount' => (float)$stok->jumlah_stok,
+                ];
+            });
+
         return Inertia::render('pemilik/dashboard', [
             'financialStats' => $financialStats,
             'salesData' => $salesData,
+            'stockComposition' => $stockComposition,
         ]);
     }
 }

@@ -24,6 +24,7 @@ import barangRoute from '@/routes/gudang/barang';
 import supplierRoute from '@/routes/gudang/supplier';
 import pelangganRoute from '@/routes/gudang/pelanggan';
 import logStokRoute from '@/routes/gudang/log-stok';
+import pemilikRoute from '@/routes/pemilik';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -66,9 +67,9 @@ export function AppSidebar() {
                 href: '#', 
                 icon: FileText,
                 items: [
-                    { title: 'Laporan Finansial', href: '#', icon: Banknote },
-                    { title: 'Monitoring Stok', href: '#', icon: Activity },
-                    { title: 'Riwayat Transaksi', href: '#', icon: History },
+                    { title: 'Laporan Finansial', href: pemilikRoute.laporanFinansial().url, icon: Banknote },
+                    { title: 'Monitoring Stok', href: pemilikRoute.monitoringStok().url, icon: Activity },
+                    { title: 'Riwayat Transaksi', href: pemilikRoute.riwayatTransaksi().url, icon: History },
                 ]
             },
             { 
@@ -76,8 +77,8 @@ export function AppSidebar() {
                 href: '#', 
                 icon: UserCog,
                 items: [
-                    { title: 'Manajemen User', href: '#', icon: Users },
-                    { title: 'Audit Pergerakan Stok', href: logStokRoute.index().url, icon: ClipboardList },
+                    { title: 'Manajemen User', href: pemilikRoute.users.index().url, icon: Users },
+                    { title: 'Audit Pergerakan Stok', href: pemilikRoute.auditStok().url, icon: ClipboardList },
                 ]
             },
         ]

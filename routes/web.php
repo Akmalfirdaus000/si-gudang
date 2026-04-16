@@ -23,6 +23,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('gudang/dashboard', [GudangDashboard::class, 'index'])->name('gudang.dashboard');
     Route::get('pemilik/dashboard', [PemilikDashboard::class, 'index'])->name('pemilik.dashboard');
+    Route::get('pemilik/laporan-finansial', [\App\Http\Controllers\Pemilik\LaporanFinansialController::class, 'index'])->name('pemilik.laporan-finansial');
+    Route::get('pemilik/laporan-finansial/export-html', [\App\Http\Controllers\Pemilik\LaporanFinansialController::class, 'exportHtml'])->name('pemilik.laporan-finansial.export-html');
+    Route::get('pemilik/monitoring/stok', [\App\Http\Controllers\Pemilik\MonitoringStokController::class, 'index'])->name('pemilik.monitoring-stok');
+    Route::get('pemilik/riwayat-transaksi', [\App\Http\Controllers\Pemilik\RiwayatTransaksiController::class, 'index'])->name('pemilik.riwayat-transaksi');
+    
+    // Pemilik - Manajemen User
+    Route::resource('pemilik/users', \App\Http\Controllers\Pemilik\UserController::class)
+        ->names('pemilik.users');
+    Route::put('pemilik/users/{user}/reset-password', [\App\Http\Controllers\Pemilik\UserController::class, 'resetPassword'])
+        ->name('pemilik.users.reset-password');
+    Route::get('pemilik/audit-stok', [\App\Http\Controllers\Pemilik\AuditStokController::class, 'index'])
+        ->name('pemilik.audit-stok');
+    Route::get('pemilik/audit-stok/export-html', [\App\Http\Controllers\Pemilik\AuditStokController::class, 'exportHtml'])
+        ->name('pemilik.audit-stok.export-html');
 
     // Gudang - Pembelian
     Route::resource('gudang/pembelian', \App\Http\Controllers\Gudang\PembelianController::class)
